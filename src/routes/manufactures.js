@@ -5,7 +5,7 @@ const manufacturesController = require("../controllers/manufactures");
 const {
   validateCreateManufacture,
   validateUpdateManufacture,
-} = require("../middlewares/manufactures");
+} = require("../middlewares/manufacturesValidation");
 
 // Get all manufactures
 router.get("/", manufacturesController.getManufactures);
