@@ -17,7 +17,6 @@ exports.validateGetModel = (req, res, next) => {
   };
 
 exports.validateCreateModel = (req, res, next) => {
-
   // Validation body schema
   const validateBody = z.object({
     name: z.string(),
@@ -25,7 +24,6 @@ exports.validateCreateModel = (req, res, next) => {
     manufacture_id: z.string(),
   });
 
-  
   const result = validateBody.safeParse(req.body);
   if (!result.success) {
     // If validation fails, return error messages

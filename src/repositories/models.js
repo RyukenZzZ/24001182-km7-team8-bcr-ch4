@@ -11,5 +11,4 @@ exports.createModel = async (data) => {
     // Convert BigInt fields to string for safe serialization
     const serializedCars = JSONBigInt.stringify(newModel);
     return JSONBigInt.parse(serializedCars);    
-
 };
