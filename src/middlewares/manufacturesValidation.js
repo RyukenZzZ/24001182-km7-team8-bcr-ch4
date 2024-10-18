@@ -1,13 +1,18 @@
 const { z } = require("zod");
 const { BadRequestError } = require("../utils/request");
 
+// Validate request to create a manufacture
 exports.validateCreateManufacture = (req, res, next) => {
-  const validateBody = z.object({
+  const schema = z.object({
+    logo: z.string().optional(),
     name: z.string().min(1, "Manufacture name is required"),
-    country: z.string().min(1, "Country is required"),
   });
 
-  const result = validateBody.safeParse(req.body);
+  if (!req.files || !req.files.logo) {
+    throw new BadRequestError("Logo file is required");
+  }
+
+  const result = schema.safeParse(req.body);
   if (!result.success) {
     throw new BadRequestError(result.error.errors);
   }
@@ -15,12 +20,19 @@ exports.validateCreateManufacture = (req, res, next) => {
   next();
 };
 
+// Validate request to get manufactures
+exports.validateGetManufactures = (req, res, next) => {
+  // No specific validation needed
+  next();
+};
+
+// Validate request to get manufacture by ID
 exports.validateGetManufactureById = (req, res, next) => {
-  const validateParams = z.object({
+  const schema = z.object({
     id: z.string(),
   });
 
-  const result = validateParams.safeParse(req.params);
+  const result = schema.safeParse(req.params);
   if (!result.success) {
     throw new BadRequestError(result.error.errors);
   }
@@ -28,35 +40,28 @@ exports.validateGetManufactureById = (req, res, next) => {
   next();
 };
 
+// Validate request to update manufacture
 exports.validateUpdateManufacture = (req, res, next) => {
-  const validateParams = z.object({
-    id: z.string(),
-  });
-
-  const validateBody = z.object({
+  const schema = z.object({
     name: z.string().optional(),
-    country: z.string().optional(),
+    logo: z.string().optional(),
   });
 
-  const resultParams = validateParams.safeParse(req.params);
-  if (!resultParams.success) {
-    throw new BadRequestError(resultParams.error.errors);
-  }
-
-  const resultBody = validateBody.safeParse(req.body);
-  if (!resultBody.success) {
-    throw new BadRequestError(resultBody.error.errors);
+  const result = schema.safeParse(req.body);
+  if (!result.success) {
+    throw new BadRequestError(result.error.errors);
   }
 
   next();
 };
 
+// Validate request to delete manufacture by ID
 exports.validateDeleteManufactureById = (req, res, next) => {
-  const validateParams = z.object({
+  const schema = z.object({
     id: z.string(),
   });
 
-  const result = validateParams.safeParse(req.params);
+  const result = schema.safeParse(req.params);
   if (!result.success) {
     throw new BadRequestError(result.error.errors);
   }
