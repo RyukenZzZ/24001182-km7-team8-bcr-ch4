@@ -4,7 +4,7 @@ const prisma = new PrismaClient();
 const JSONBigInt = require(`json-bigint`);
 
 exports.getCarsType = async () => {
-  const carsTypeData = await prisma.type.findMany();
+  const carsTypeData = await prisma.types.findMany();
   if (!carsTypeData) {
     return null;
   }
@@ -13,7 +13,7 @@ exports.getCarsType = async () => {
 };
 
 exports.getCarsTypeById = async (id) => {
-  const carsTypeData = await prisma.type.findUnique({
+  const carsTypeData = await prisma.types.findUnique({
     where: {
       id: Number(id),
     },
@@ -26,7 +26,7 @@ exports.getCarsTypeById = async (id) => {
 };
 
 exports.getCarsTypeByQuery = async (name, characteristic, style) => {
-  const carsTypeData = await prisma.type.findMany({
+  const carsTypeData = await prisma.types.findMany({
     where: {
       OR: [
         {
@@ -54,9 +54,30 @@ exports.getCarsTypeByQuery = async (name, characteristic, style) => {
 };
 
 exports.addCarsType=async(data)=>{
-  const newCarsType = await prisma.type.createManyAndReturn({
+  const newCarsType = await prisma.types.createManyAndReturn({
     data:[{...data}]
   });
   const serializeData = JSONBigInt.stringify(newCarsType);
+  return JSONBigInt.parse(serializeData);
+}
+
+exports.updateCarsType=async(id,data)=>{
+  const updatedCarsType = await prisma.types.update({
+    where: {
+      id:Number(id),
+    },
+    data,
+  });
+  const serializeData=JSONBigInt.stringify(updatedCarsType);
+  return JSONBigInt.parse(serializeData);
+}
+
+exports.deleteCarsType=async(id)=>{
+  const deletedCarsType = await prisma.types.delete({
+    where: {
+      id:Number(id),
+    },
+  });
+  const serializeData=JSONBigInt.stringify(deletedCarsType);
   return JSONBigInt.parse(serializeData);
 }
