@@ -25,7 +25,7 @@ exports.createModel = async (data) => {
 
 exports.updateModel = async (id, data) => {
     // find Model is exist or not (validate the data)
-    const existingModel = await modelRepository.getModelById(id);
+    const existingModel = modelRepository.getModelById(id);
     if (!existingModel) {
         throw new NotFoundError("Model is Not Found!");
     }

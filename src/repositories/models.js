@@ -68,9 +68,7 @@ exports.updateModel = async (id, data) => {
         where: {
             id: id, // ID dari model yang ingin diperbarui
         },
-        data: {
-            manufacture_id: BigInt(data.manufacture_id), // Ubah ke BigInt jika dibutuhkan
-        },
+        data,
         include: {
             manufactures: true, // Sertakan relasi jika perlu
         },
