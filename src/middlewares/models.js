@@ -45,9 +45,23 @@ exports.validateCreateModel = (req, res, next) => {
     manufacture_id: z.string(),
   });
 
-  const result = validateBody.safeParse(req.body);
+  const resultValidateQuery = validateQuery.safeParse(req.query);
+  if (!resultValidateQuery.success) {
+    throw new BadRequestError(resultValidateQuery.error.errors);
+  }
+
+  next();
+};
+
+exports.validateGetModelById = (req, res, next) => {
+  req.params = { ...req.params, id: Number(req.params.id) };
+
+  const validateParams = z.object({
+    id: z.number(),
+  });
+
+  const result = validateParams.safeParse(req.params);
   if (!result.success) {
-    // If validation fails, return error messages
     throw new BadRequestError(result.error.errors);
   }
 
